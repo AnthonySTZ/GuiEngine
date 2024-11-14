@@ -19,6 +19,11 @@ add_library(imgui STATIC ${IMGUI_SRC})
 set(GLFW_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libraries/imgui/examples/libs/glfw/include")  # Relative path to GLFW includes
 set(GLFW_LIBRARY "${CMAKE_SOURCE_DIR}/libraries/GLFW/glfw3.lib")  # Relative path to glfw3.lib
 
+set(GLEW_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libraries/glew-2.1.0/include")
+set(GLEW_LIBRARY "${CMAKE_SOURCE_DIR}/libraries/glew-2.1.0/lib/Release/x64/glew32s.lib")
+
+add_definitions(-DGLEW_STATIC)
+
 # Include directories for ImGui and GLFW
 target_include_directories(imgui PUBLIC 
     "libraries/imgui"
@@ -34,7 +39,8 @@ target_include_directories(GuiEngine PRIVATE
     "libraries/imgui"
     "libraries/imgui/backends"
     ${GLFW_INCLUDE_DIR}
+    ${GLEW_INCLUDE_DIR}
 )
 
 # Link ImGui, GLFW, and OpenGL libraries to the main executable
-target_link_libraries(GuiEngine PUBLIC imgui "${GLFW_LIBRARY}" opengl32)
+target_link_libraries(GuiEngine PUBLIC imgui "${GLFW_LIBRARY}" "${GLEW_LIBRARY}" opengl32)
