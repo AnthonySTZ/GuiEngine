@@ -1,0 +1,5 @@
+CMakeSettings.json
+*.vcxproj*
+out
+x64
+*.vs

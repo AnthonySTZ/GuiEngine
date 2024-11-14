@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.29)
+
+# Define the project and set the C++ standard
+project(GuiEngine)
+set(CMAKE_CXX_STANDARD 17)
+
+# ImGui source files
+file(GLOB IMGUI_SRC 
+    "libraries/imgui/*.cpp"
+    "libraries/imgui/backends/imgui_impl_glfw.cpp"
+    "libraries/imgui/backends/imgui_impl_opengl3.cpp"
+)
+
+# Add ImGui as a static library
+add_library(imgui STATIC ${IMGUI_SRC})
+
+# Use relative path for GLFW include and library
+# Assuming glfw is inside your project folder structure
+set(GLFW_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/libraries/imgui/examples/libs/glfw/include")  # Relative path to GLFW includes
+set(GLFW_LIBRARY "${CMAKE_SOURCE_DIR}/libraries/GLFW/glfw3.lib")  # Relative path to glfw3.lib
+
+# Include directories for ImGui and GLFW
+target_include_directories(imgui PUBLIC 
+    "libraries/imgui"
+    "libraries/imgui/backends"
+    ${GLFW_INCLUDE_DIR}       # Ensure ImGui has access to GLFW headers
+)
+
+# Define the main executable
+add_executable(GuiEngine "src/Application.cpp" "src/GuiEngine.h" "src/GuiEngine.cpp" )
+
+# Include directories for the main executable and link libraries
+target_include_directories(GuiEngine PRIVATE 
+    "libraries/imgui"
+    "libraries/imgui/backends"
+    ${GLFW_INCLUDE_DIR}
+)
+
+# Link ImGui, GLFW, and OpenGL libraries to the main executable
+target_link_libraries(GuiEngine PUBLIC imgui "${GLFW_LIBRARY}" opengl32)
