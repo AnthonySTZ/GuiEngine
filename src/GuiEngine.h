@@ -6,11 +6,13 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include <vector>
+
 namespace engine
 {
 
 	const char* InitGLFW();
-	ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version);
+	ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version, int vsync);
 	void PollEvents();
 	void NewFrame();
 	void ShowDockspace(ImGuiIO& io);
@@ -28,7 +30,7 @@ namespace engine
 		GLuint VAO, VBO;
 		void BindShaders();
 		void GenTexture2D();
-		void InitBuffers();
-		void Render(int w_width, int w_height);
+		void InitBuffers(float* vertices, int vertices_size);
+		void Render(int w_width, int w_height, int vertices_numbers);
 	};
 }

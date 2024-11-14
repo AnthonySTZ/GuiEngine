@@ -33,11 +33,11 @@ namespace engine
         return glsl_version;
 
 	}
-    ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version)
+    ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version, int vsync)
     {
         
         glfwMakeContextCurrent(window);
-        glfwSwapInterval(1); // Enable vsync
+        glfwSwapInterval(vsync); // Enable/Disable vsync
 
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
@@ -225,27 +225,21 @@ namespace engine
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void Renderer::InitBuffers() 
+    void Renderer::InitBuffers(float* vertices, int vertices_size)
     {
-        float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
-        };
-
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
 
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices_size, vertices, GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
     }
 
-    void Renderer::Render(int w_width, int w_height)
+    void Renderer::Render(int w_width, int w_height, int vertices_numbers)
     {
         // Refresh Viewport size
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w_width, w_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -258,7 +252,7 @@ namespace engine
         // Render triangle with shader program
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, vertices_numbers);
 
         // Unbind framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

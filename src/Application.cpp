@@ -1,5 +1,7 @@
 #include "GuiEngine.h"
 #include <iostream>
+#include<array> 
+
 int main() 
 {
 	const char* glsl_version = engine::InitGLFW();
@@ -7,12 +9,24 @@ int main()
 		return 1;
 
 	GLFWwindow* window = glfwCreateWindow(1280, 720, "Test", nullptr, nullptr);
-	ImGuiIO& io = engine::InitImGui(window, glsl_version);
+	ImGuiIO& io = engine::InitImGui(window, glsl_version, 0);
 
 	engine::Renderer renderer = engine::Renderer();
 	renderer.BindShaders();
 	renderer.GenTexture2D();
-	renderer.InitBuffers();
+
+	float vertices[] = {
+	 -.5f,-0.5f, 0.0f,
+	 -0.5f, 0.5f, 0.0f,
+	 .5f,  .5f, 0.0f,
+
+	 -.5f,-0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 .5f,  .5f, 0.0f,
+	};
+	int number_of_vertices = (int)(sizeof(vertices) / sizeof(*vertices) / 3);
+
+	renderer.InitBuffers(vertices, sizeof(vertices));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -22,7 +36,7 @@ int main()
 
 		ImGui::Begin("Viewport");
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
-		renderer.Render(w_size.x, w_size.y);
+		renderer.Render(w_size.x, w_size.y, number_of_vertices);
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 
