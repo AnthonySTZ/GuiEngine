@@ -34,6 +34,14 @@ namespace engine
         return glsl_version;
 
 	}
+    void SetElementsColors(ImGuiStyle& style, ImVec4 color, std::vector<ImGuiCol_> elements)
+    {
+        for each (ImGuiCol_ element in elements)
+        {
+            style.Colors[element] = color;
+        }
+
+    }
     ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version, int vsync)
     {
         
@@ -49,14 +57,50 @@ namespace engine
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;        // Enable Docking
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-        ImGui::StyleColorsDark();
 
+        // Change Windows style
         ImGuiStyle& style = ImGui::GetStyle();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            style.WindowRounding = 0.0f;
-            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-        }
+        style.WindowRounding = 0.0f;
+        style.WindowMenuButtonPosition = ImGuiDir_None;
+        style.WindowPadding = ImVec2(0.0f, 0.0f);
+        ImVec4 dark_color = ImVec4(0.1f, 0.1f, 0.11f, 1.0f);
+        std::vector<ImGuiCol_> dark_elements = {
+            ImGuiCol_WindowBg,
+            ImGuiCol_ChildBg,
+            ImGuiCol_PopupBg,
+            ImGuiCol_TitleBg,
+            ImGuiCol_TitleBgActive,
+            ImGuiCol_TitleBgCollapsed,
+            ImGuiCol_Header,
+            ImGuiCol_HeaderHovered,
+            ImGuiCol_HeaderActive,
+            ImGuiCol_ScrollbarBg,
+            ImGuiCol_Tab,
+            ImGuiCol_TabHovered,
+            ImGuiCol_TabSelected,
+            ImGuiCol_TabSelectedOverline,
+            ImGuiCol_TabDimmed,
+            ImGuiCol_TabDimmedSelected,
+            ImGuiCol_TabDimmedSelectedOverline,
+
+        };
+        SetElementsColors(style, dark_color, dark_elements);
+
+        ImVec4 blue_color = ImVec4(0.1f, 0.2f, 0.4f, 1.0f);
+        std::vector<ImGuiCol_> blue_elements = {
+            ImGuiCol_TitleBg,
+            ImGuiCol_TitleBgActive,
+            ImGuiCol_TitleBgCollapsed,
+            ImGuiCol_Tab,
+            ImGuiCol_TabHovered,
+            ImGuiCol_TabSelected,
+            ImGuiCol_TabSelectedOverline,
+            ImGuiCol_TabDimmed,
+            ImGuiCol_TabDimmedSelected,
+            ImGuiCol_TabDimmedSelectedOverline,
+            ImGuiCol_Border
+        };
+        SetElementsColors(style, blue_color, blue_elements);
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(window, true);

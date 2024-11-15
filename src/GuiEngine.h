@@ -31,6 +31,7 @@ namespace engine
 		GLuint VAO, VBO;
 		void BindShaders();
 		void GenTexture2D();
+		void SetElementsColors(ImGuiStyle& style, ImVec4 color, std::vector<ImGuiCol_> elements);
 		void InitBuffers(std::vector<Vertex> vertices);
 		void Render(int w_width, int w_height, int vertices_numbers);
 	};
