@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 
+
 std::string readFromFile(const char* filePath) {
     std::ifstream file(filePath);
     if (!file.is_open())
@@ -225,14 +226,14 @@ namespace engine
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void Renderer::InitBuffers(float* vertices, int vertices_size)
+    void Renderer::InitBuffers(std::vector<Vertex> vertices)
     {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
 
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, vertices_size, vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);

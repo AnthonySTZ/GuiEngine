@@ -7,13 +7,17 @@
 int main() 
 {
 
-	Vector3 vector_01 = Vector3(2.0, 0.5, 1.0);
-	Vector3 vector_02 = Vector3(2.5, 10.5, 0.0);
+	Vector3 vector_01 = Vector3(-.5f, -0.5f, 0.0f);
+	Vector3 vector_02 = Vector3(-0.5f, 0.5f, 0.0f);
+	Vector3 vector_03 = Vector3(.5f, .5f, 0.0f);
+	Vertex point_01 = Vertex(vector_01);
+	Vertex point_02 = Vertex(vector_02);
+	Vertex point_03 = Vertex(vector_03);
+	Scene scene = Scene();
+	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03 };
+	scene.AddVertices(scene_vertices);
 
-	std::cout << vector_01 + vector_02 << std::endl;
 
-
-	return 0;
 	const char* glsl_version = engine::InitGLFW();
 	if (!glsl_version)
 		return 1;
@@ -25,18 +29,8 @@ int main()
 	renderer.BindShaders();
 	renderer.GenTexture2D();
 
-	float vertices[] = {
-	 -.5f,-0.5f, 0.0f,
-	 -0.5f, 0.5f, 0.0f,
-	 .5f,  .5f, 0.0f,
 
-	 -.5f,-0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 .5f,  .5f, 0.0f,
-	};
-	int number_of_vertices = (int)(sizeof(vertices) / sizeof(*vertices) / 3);
-
-	renderer.InitBuffers(vertices, sizeof(vertices));
+	renderer.InitBuffers(scene.vertices);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -46,7 +40,7 @@ int main()
 
 		ImGui::Begin("Viewport");
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
-		renderer.Render(w_size.x, w_size.y, number_of_vertices);
+		renderer.Render(w_size.x, w_size.y, scene.vertices.size());
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 

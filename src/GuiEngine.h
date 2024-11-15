@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "3DHandler.h"
 
 #include <vector>
 
@@ -30,7 +31,7 @@ namespace engine
 		GLuint VAO, VBO;
 		void BindShaders();
 		void GenTexture2D();
-		void InitBuffers(float* vertices, int vertices_size);
+		void InitBuffers(std::vector<Vertex> vertices);
 		void Render(int w_width, int w_height, int vertices_numbers);
 	};
 }
