@@ -2,8 +2,18 @@
 #include <iostream>
 #include<array> 
 
+#include "3DHandler.h"
+
 int main() 
 {
+
+	Vector3 vector_01 = Vector3(2.0, 0.5, 1.0);
+	Vector3 vector_02 = Vector3(2.5, 10.5, 0.0);
+
+	std::cout << vector_01 + vector_02 << std::endl;
+
+
+	return 0;
 	const char* glsl_version = engine::InitGLFW();
 	if (!glsl_version)
 		return 1;

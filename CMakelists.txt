@@ -12,7 +12,7 @@ file(GLOB IMGUI_SRC
 )
 
 # Add ImGui as a static library
-add_library(imgui STATIC ${IMGUI_SRC})
+add_library(imgui STATIC ${IMGUI_SRC} "src/3DHandler.h" "src/3DHandler.cpp")
 
 # Use relative path for GLFW include and library
 # Assuming glfw is inside your project folder structure
@@ -32,7 +32,7 @@ target_include_directories(imgui PUBLIC
 )
 
 # Define the main executable
-add_executable(GuiEngine "src/Application.cpp" "src/GuiEngine.h" "src/GuiEngine.cpp" )
+add_executable(GuiEngine "src/Application.cpp" "src/GuiEngine.h" "src/GuiEngine.cpp"  "src/3DHandler.h" "src/3DHandler.cpp")
 
 # Include directories for the main executable and link libraries
 target_include_directories(GuiEngine PRIVATE 
