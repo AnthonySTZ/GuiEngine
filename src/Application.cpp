@@ -6,7 +6,7 @@
 
 int main() 
 {
-
+	// Define Scene
 	Vector3 vector_01 = Vector3(-0.5f, -0.5f, 0.0f);
 	Vector3 vector_02 = Vector3(-0.5f, 0.5f, 0.0f);
 	Vector3 vector_03 = Vector3(.5f, .5f, 0.0f);
@@ -22,7 +22,6 @@ int main()
 	Vertex point_03 = Vertex(vector_03, blue);
 	Vertex point_04 = Vertex(vector_04, yellow);
 
-
 	Scene scene = Scene();
 	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03, point_04 };
 	std::vector<int> scene_indices = { 
@@ -32,7 +31,7 @@ int main()
 	scene.AddVertices(scene_vertices);
 	scene.AddIndices(scene_indices);
 
-
+	// Init Window
 	const char* glsl_version = engine::InitGLFW();
 	if (!glsl_version)
 		return 1;
@@ -40,31 +39,35 @@ int main()
 	GLFWwindow* window = glfwCreateWindow(1280, 720, "Test", nullptr, nullptr);
 	ImGuiIO& io = engine::InitImGui(window, glsl_version, 0);
 
+	// Init Renderer
 	engine::Renderer renderer = engine::Renderer();
 	renderer.BindShaders();
 	renderer.GenTexture2D();
-
-
 	renderer.InitBuffers(scene.vertices, scene.indices);
 
 	while (!glfwWindowShouldClose(window))
 	{
+		// Refresh UI
 		engine::PollEvents();
 		engine::NewFrame();
 		engine::ShowDockspace(io);
 
+		// Render Viewport
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove);
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
 		renderer.Render(w_size.x, w_size.y, scene.indices.size());
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 
+		// Add Tools Bar
 		ImGui::Begin("Tools", NULL, ImGuiWindowFlags_NoMove);
 		ImGui::Text("Stats: %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 		ImGui::End();
 
+		// Render all the window UI (show everything to screen)
 		engine::Render(window, io);
 	}
+
 	engine::Shutdown(window);
 	return 0;
 
