@@ -38,13 +38,13 @@ int main()
 		engine::NewFrame();
 		engine::ShowDockspace(io);
 
-		ImGui::Begin("Viewport");
+		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove);
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
 		renderer.Render(w_size.x, w_size.y, scene.vertices.size());
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 
-		ImGui::Begin("Tools");
+		ImGui::Begin("Tools", NULL, ImGuiWindowFlags_NoMove);
 		ImGui::Text("Stats: %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 		ImGui::End();
 
