@@ -23,6 +23,8 @@ class Scene
 {
 public:
 	std::vector<Vertex> vertices;
+	std::vector<int> indices;
 	void AddVertices(std::vector<Vertex> vertices_list);
+	void AddIndices(std::vector<int> indicies_list);
 };
 

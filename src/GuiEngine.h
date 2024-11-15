@@ -13,6 +13,7 @@ namespace engine
 {
 
 	const char* InitGLFW();
+	void SetElementsColors(ImGuiStyle& style, ImVec4 color, std::vector<ImGuiCol_> elements);
 	ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version, int vsync);
 	void PollEvents();
 	void NewFrame();
@@ -28,11 +29,10 @@ namespace engine
 		GLuint shaderProgram;
 		GLuint framebuffer;
 		GLuint textureColorBuffer;
-		GLuint VAO, VBO;
+		GLuint VAO, VBO, EBO;
 		void BindShaders();
-		void GenTexture2D();
-		void SetElementsColors(ImGuiStyle& style, ImVec4 color, std::vector<ImGuiCol_> elements);
-		void InitBuffers(std::vector<Vertex> vertices);
-		void Render(int w_width, int w_height, int vertices_numbers);
+		void GenTexture2D();		
+		void InitBuffers(std::vector<Vertex> vertices, std::vector<int> indices);
+		void Render(int w_width, int w_height, int indices_numbers);
 	};
 }

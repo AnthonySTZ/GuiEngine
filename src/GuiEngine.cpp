@@ -262,26 +262,36 @@ namespace engine
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void Renderer::InitBuffers(std::vector<Vertex> vertices)
+    void Renderer::InitBuffers(std::vector<Vertex> vertices, std::vector<int> indices)
     {
+        // Generate and bind VAO
         glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-
         glBindVertexArray(VAO);
+
+        // Generate and bind VBO
+        glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-        // Position attribute
+        // Generate and bind EBO
+        glGenBuffers(1, &EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), &indices[0], GL_STATIC_DRAW);
+
+        // Define position attribute
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
         glEnableVertexAttribArray(0);
 
-        // Color attribute
+        // Define color attribute
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
         glEnableVertexAttribArray(1);
 
+        // Unbind the VAO (optional)
+        glBindVertexArray(0);
+
     }
 
-    void Renderer::Render(int w_width, int w_height, int vertices_numbers)
+    void Renderer::Render(int w_width, int w_height, int indices_numbers)
     {
         // Refresh Viewport size
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w_width, w_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
@@ -294,7 +304,7 @@ namespace engine
         // Render triangle with shader program
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, vertices_numbers);
+        glDrawElements(GL_TRIANGLES, indices_numbers, GL_UNSIGNED_INT, 0);
 
         // Unbind framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

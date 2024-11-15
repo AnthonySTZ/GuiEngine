@@ -19,3 +19,11 @@ void Scene::AddVertices(std::vector<Vertex> vertices_list)
 		vertices.push_back(vertex);
 	}	
 }
+
+void Scene::AddIndices(std::vector<int> indicies_list)
+{
+	for each (int index in indicies_list)
+	{
+		indices.push_back(index);
+	}
+}

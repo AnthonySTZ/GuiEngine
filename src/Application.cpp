@@ -7,18 +7,30 @@
 int main() 
 {
 
-	Vector3 vector_01 = Vector3(0.0f, -0.5f, 0.0f);
+	Vector3 vector_01 = Vector3(-0.5f, -0.5f, 0.0f);
 	Vector3 vector_02 = Vector3(-0.5f, 0.5f, 0.0f);
 	Vector3 vector_03 = Vector3(.5f, .5f, 0.0f);
+	Vector3 vector_04 = Vector3(.5f, -.5f, 0.0f);
+
 	Vector3 red = Vector3(0.8f, 0.0f, 0.0f);
 	Vector3 green = Vector3(0.0f, 0.8f, 0.0f);
 	Vector3 blue = Vector3(0.0f, 0.0f, 0.8f);
+	Vector3 yellow = Vector3(0.8f, 0.8f, 0.0f);
+
 	Vertex point_01 = Vertex(vector_01, red);
 	Vertex point_02 = Vertex(vector_02, green);
 	Vertex point_03 = Vertex(vector_03, blue);
+	Vertex point_04 = Vertex(vector_04, yellow);
+
+
 	Scene scene = Scene();
-	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03 };
+	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03, point_04 };
+	std::vector<int> scene_indices = { 
+		0, 1, 2,
+		0, 2, 3
+	};
 	scene.AddVertices(scene_vertices);
+	scene.AddIndices(scene_indices);
 
 
 	const char* glsl_version = engine::InitGLFW();
@@ -33,7 +45,7 @@ int main()
 	renderer.GenTexture2D();
 
 
-	renderer.InitBuffers(scene.vertices);
+	renderer.InitBuffers(scene.vertices, scene.indices);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -43,7 +55,7 @@ int main()
 
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove);
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
-		renderer.Render(w_size.x, w_size.y, scene.vertices.size());
+		renderer.Render(w_size.x, w_size.y, scene.indices.size());
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 
