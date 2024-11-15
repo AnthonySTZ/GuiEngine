@@ -33,6 +33,6 @@ namespace engine
 		void BindShaders();
 		void GenTexture2D();		
 		void InitBuffers(std::vector<Vertex> vertices, std::vector<int> indices);
-		void Render(int w_width, int w_height, int indices_numbers);
+		void Render(int w_width, int w_height, Scene scene);
 	};
 }

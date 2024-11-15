@@ -31,12 +31,21 @@ int main()
 	scene.AddVertices(scene_vertices);
 	scene.AddIndices(scene_indices);
 
+	//Init camera
+	Vector3 cam_position = Vector3(0.0f, 0.0f, 5.0f);
+	Vector3 cam_direction = Vector3(0.0f, 0.0f, -1.0f);
+	Vector3 cam_upVector = Vector3(0.0f, 1.0f, 0.0f); 
+	float cam_fov = 45.0f;
+	float cam_aspect = 16.0f/9.0f;
+	Camera camera = Camera(cam_position, cam_direction, cam_upVector, cam_fov, cam_aspect);
+	scene.SetCamera(camera);
+
 	// Init Window
 	const char* glsl_version = engine::InitGLFW();
 	if (!glsl_version)
 		return 1;
 
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "Test", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(1920, 1080, "GuiEngine", nullptr, nullptr);
 	ImGuiIO& io = engine::InitImGui(window, glsl_version, 0);
 
 	// Init Renderer
@@ -55,7 +64,7 @@ int main()
 		// Render Viewport
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove);
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
-		renderer.Render(w_size.x, w_size.y, scene.indices.size());
+		renderer.Render(w_size.x, w_size.y, scene);
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));
 		ImGui::End();
 

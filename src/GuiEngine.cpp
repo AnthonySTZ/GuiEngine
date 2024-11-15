@@ -291,8 +291,25 @@ namespace engine
 
     }
 
-    void Renderer::Render(int w_width, int w_height, int indices_numbers)
+    void Renderer::Render(int w_width, int w_height, Scene scene)
     {
+        scene.camera.aspectRatio = (float)w_width / (float)w_height;
+        Matrix4 view = scene.camera.getViewMatrix();
+        Matrix4 projection = scene.camera.getProjectionMatrix();
+        /*std::cout << "Projection Matrix:\n";
+        for (int j = 0; j < 4; ++j) {
+            for (int i = 0; i < 4; ++i) {
+                std::cout << projection.elements[i * 4 + j] << " ";
+            }
+            std::cout << std::endl;
+        }*/
+
+        GLuint projectionLoc = glGetUniformLocation(shaderProgram, "proj");
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.elements);
+
+        GLuint viewLoc = glGetUniformLocation(shaderProgram, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view.elements);
+
         // Refresh Viewport size
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w_width, w_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
@@ -304,7 +321,7 @@ namespace engine
         // Render triangle with shader program
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, indices_numbers, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, scene.indices.size(), GL_UNSIGNED_INT, 0);
 
         // Unbind framebuffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
