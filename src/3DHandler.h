@@ -14,7 +14,8 @@ struct Vector3
 struct Vertex
 {
 	Vector3 position;
-	Vertex(Vector3 position) : position(position) {};
+	Vector3 color;
+	Vertex(Vector3 position, Vector3 color) : position(position), color(color) {};
 };
 
 

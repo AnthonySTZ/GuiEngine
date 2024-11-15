@@ -7,12 +7,15 @@
 int main() 
 {
 
-	Vector3 vector_01 = Vector3(-.5f, -0.5f, 0.0f);
+	Vector3 vector_01 = Vector3(0.0f, -0.5f, 0.0f);
 	Vector3 vector_02 = Vector3(-0.5f, 0.5f, 0.0f);
 	Vector3 vector_03 = Vector3(.5f, .5f, 0.0f);
-	Vertex point_01 = Vertex(vector_01);
-	Vertex point_02 = Vertex(vector_02);
-	Vertex point_03 = Vertex(vector_03);
+	Vector3 red = Vector3(0.8f, 0.0f, 0.0f);
+	Vector3 green = Vector3(0.0f, 0.8f, 0.0f);
+	Vector3 blue = Vector3(0.0f, 0.0f, 0.8f);
+	Vertex point_01 = Vertex(vector_01, red);
+	Vertex point_02 = Vertex(vector_02, green);
+	Vertex point_03 = Vertex(vector_03, blue);
 	Scene scene = Scene();
 	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03 };
 	scene.AddVertices(scene_vertices);
