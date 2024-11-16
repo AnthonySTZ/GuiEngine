@@ -38,6 +38,7 @@ int main()
 	float cam_fov = 45.0f;
 	float cam_aspect = 16.0f/9.0f;
 	Camera camera = Camera(cam_position, cam_direction, cam_upVector, cam_fov, cam_aspect);
+	camera.movementSpeed = 4.0f;
 	scene.SetCamera(camera);
 
 	// Init Window
@@ -54,8 +55,15 @@ int main()
 	renderer.GenTexture2D();
 	renderer.InitBuffers(scene.vertices, scene.indices);
 
+	float currentFrame, deltaTime, lastFrame = 0.0f;
+
 	while (!glfwWindowShouldClose(window))
 	{
+		currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+		scene.processInput(window, deltaTime);
+
 		// Refresh UI
 		engine::PollEvents();
 		engine::NewFrame();

@@ -3,14 +3,28 @@
 
 namespace gui_math {
 
-	Vector3 Vector3::operator+(Vector3 vector3)
+	Vector3 Vector3::operator+(Vector3 vector)
 	{
-		return Vector3(x + vector3.x, y + vector3.y, z + vector3.z);
+		return Vector3(x + vector.x, y + vector.y, z + vector.z);
 	}
 
-	Vector3 Vector3::operator-(Vector3 vector3)
+	void Vector3::operator+=(Vector3 vector)
 	{
-		return Vector3(x - vector3.x, y - vector3.y, z - vector3.z);
+		x += vector.x;
+		y += vector.y;
+		z += vector.z;
+	}
+
+	void Vector3::operator-=(Vector3 vector)
+	{
+		x -= vector.x;
+		y -= vector.y;
+		z -= vector.z;
+	}
+
+	Vector3 Vector3::operator-(Vector3 vector)
+	{
+		return Vector3(x - vector.x, y - vector.y, z - vector.z);
 	}
 
 	Vector3 Vector3::operator-()
@@ -18,14 +32,19 @@ namespace gui_math {
 		return Vector3(-x, -y, -z);
 	}
 
+	Vector3 Vector3::operator*(float mult)
+	{
+		return Vector3(x * mult, y * mult, z * mult);
+	}
+
 	Vector3 Vector3::operator/(float divider)
 	{
 		return Vector3(x / divider, y / divider, z / divider);
 	}
 
-	std::ostream& operator<<(std::ostream& os, const Vector3& vector3)
+	std::ostream& operator<<(std::ostream& os, const Vector3& vector)
 	{
-		std::string text = "x: " + std::to_string(vector3.x) + " y: " + std::to_string(vector3.y) + " z: " + std::to_string(vector3.z);
+		std::string text = "x: " + std::to_string(vector.x) + " y: " + std::to_string(vector.y) + " z: " + std::to_string(vector.z);
 		return os << text;
 	}
 

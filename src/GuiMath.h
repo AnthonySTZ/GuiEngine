@@ -10,11 +10,14 @@ namespace gui_math
 		float x, y, z;
 		Vector3() : x(0.0f), y(0.0f), z(0.0f) {}
 		Vector3(float x, float y, float z) : x(x), y(y), z(z) {};
-		Vector3 operator+(Vector3 vector3);
-		Vector3 operator-(Vector3 vector3);
+		Vector3 operator+(Vector3 vector);
+		void operator+=(Vector3 vector);
+		void operator-=(Vector3 vector);
+		Vector3 operator-(Vector3 vector);
 		Vector3 operator-();
+		Vector3 operator*(float mult);
 		Vector3 operator/(float divider);
-		friend std::ostream& operator<<(std::ostream& os, const Vector3& vector3);
+		friend std::ostream& operator<<(std::ostream& os, const Vector3& vector);
 	};
 
 	const float PI = 3.14159265358979323846;

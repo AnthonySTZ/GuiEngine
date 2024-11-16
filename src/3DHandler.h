@@ -1,8 +1,18 @@
 #pragma once
 
 #include "GuiMath.h"
+#include "glfw/glfw3.h"
 #include <iostream>
 #include <vector>
+
+enum Action {
+	MOVING_FORWARD,
+	MOVING_BACKWARD,
+	MOVING_RIGHT,
+	MOVING_LEFT,
+	MOVING_UP,
+	MOVING_DOWN
+};
 
 struct Vertex
 {
@@ -36,6 +46,7 @@ public:
 	gui_math::Matrix4 getProjectionMatrix();
 	gui_math::Matrix4 getLookAtMatrix(gui_math::Vector3 target);
 	gui_math::Matrix4 getViewMatrix();
+	void move(Action action, float deltaTime);
 };
 
 
@@ -49,4 +60,5 @@ public:
 	void AddVertices(std::vector<Vertex> vertices_list);
 	void AddIndices(std::vector<int> indicies_list);
 	void SetCamera(Camera camera_) {camera = camera_;};
+	void processInput(GLFWwindow* window, float deltaTime);
 };
