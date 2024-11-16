@@ -7,20 +7,20 @@
 int main() 
 {
 	// Define Scene
-	Vector3 vector_01 = Vector3(-0.5f, -0.5f, 0.0f);
-	Vector3 vector_02 = Vector3(-0.5f, 0.5f, 0.0f);
-	Vector3 vector_03 = Vector3(.5f, .5f, 0.0f);
-	Vector3 vector_04 = Vector3(.5f, -.5f, 0.0f);
+	gui_math::Vector3 vector_01 = gui_math::Vector3(-0.5f, -0.5f, 0.0f);
+	gui_math::Vector3 vector_02 = gui_math::Vector3(-0.5f, 0.5f, 0.0f);
+	gui_math::Vector3 vector_03 = gui_math::Vector3(.5f, .5f, 0.0f);
+	gui_math::Vector3 vector_04 = gui_math::Vector3(.5f, -.5f, 0.0f);
 
-	Vector3 red = Vector3(0.8f, 0.0f, 0.0f);
-	Vector3 green = Vector3(0.0f, 0.8f, 0.0f);
-	Vector3 blue = Vector3(0.0f, 0.0f, 0.8f);
-	Vector3 yellow = Vector3(0.8f, 0.8f, 0.0f);
+	gui_math::Vector3 red = gui_math::Vector3(0.8f, 0.0f, 0.0f);
+	gui_math::Vector3 green = gui_math::Vector3(0.0f, 0.8f, 0.0f);
+	gui_math::Vector3 blue = gui_math::Vector3(0.0f, 0.0f, 0.8f);
+	gui_math::Vector3 yellow = gui_math::Vector3(0.8f, 0.8f, 0.0f);
 
 	Vertex point_01 = Vertex(vector_01, red);
 	Vertex point_02 = Vertex(vector_02, green);
 	Vertex point_03 = Vertex(vector_03, blue);
-	Vertex point_04 = Vertex(vector_04, yellow);
+	Vertex point_04 = Vertex(vector_04, red);
 
 	Scene scene = Scene();
 	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03, point_04 };
@@ -32,9 +32,9 @@ int main()
 	scene.AddIndices(scene_indices);
 
 	//Init camera
-	Vector3 cam_position = Vector3(0.0f, 0.0f, 5.0f);
-	Vector3 cam_direction = Vector3(0.0f, 0.0f, -1.0f);
-	Vector3 cam_upVector = Vector3(0.0f, 1.0f, 0.0f); 
+	gui_math::Vector3 cam_position = gui_math::Vector3(1.0f, 1.0f, 5.0f);
+	gui_math::Vector3 cam_direction = gui_math::Vector3(0.0f, 0.0f, -1.0f);
+	gui_math::Vector3 cam_upVector = gui_math::Vector3(0.0f, 1.0f, 0.0f);
 	float cam_fov = 45.0f;
 	float cam_aspect = 16.0f/9.0f;
 	Camera camera = Camera(cam_position, cam_direction, cam_upVector, cam_fov, cam_aspect);

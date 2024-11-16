@@ -294,12 +294,12 @@ namespace engine
     void Renderer::Render(int w_width, int w_height, Scene scene)
     {
         scene.camera.aspectRatio = (float)w_width / (float)w_height;
-        Matrix4 view = scene.camera.getViewMatrix();
-        Matrix4 projection = scene.camera.getProjectionMatrix();
+        gui_math::Matrix4 view = scene.camera.getViewMatrix();
+        gui_math::Matrix4 projection = scene.camera.getProjectionMatrix();
         /*std::cout << "Projection Matrix:\n";
         for (int j = 0; j < 4; ++j) {
             for (int i = 0; i < 4; ++i) {
-                std::cout << projection.elements[i * 4 + j] << " ";
+                std::cout << view.elements[i * 4 + j] << " ";
             }
             std::cout << std::endl;
         }*/
