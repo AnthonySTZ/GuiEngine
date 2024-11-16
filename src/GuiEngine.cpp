@@ -107,8 +107,10 @@ namespace engine
         ImGui_ImplOpenGL3_Init(glsl_version);
         return io;
     }
-    void PollEvents()
+    void PollEvents(GLFWwindow* window)
     {
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            ImGui::SetWindowFocus(NULL);
         glfwPollEvents();
     }
     void NewFrame()
@@ -296,13 +298,6 @@ namespace engine
         scene.camera.aspectRatio = (float)w_width / (float)w_height;
         gui_math::Matrix4 view = scene.camera.getViewMatrix();
         gui_math::Matrix4 projection = scene.camera.getProjectionMatrix();
-        /*std::cout << "Projection Matrix:\n";
-        for (int j = 0; j < 4; ++j) {
-            for (int i = 0; i < 4; ++i) {
-                std::cout << view.elements[i * 4 + j] << " ";
-            }
-            std::cout << std::endl;
-        }*/
 
         GLuint projectionLoc = glGetUniformLocation(shaderProgram, "proj");
         glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.elements);

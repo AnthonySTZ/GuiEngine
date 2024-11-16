@@ -32,8 +32,8 @@ int main()
 	scene.AddIndices(scene_indices);
 
 	//Init camera
-	gui_math::Vector3 cam_position = gui_math::Vector3(1.0f, 0.0f, -10.0f);
-	gui_math::Vector3 cam_direction = gui_math::Vector3(0.0f, 0.0f, 1.0f);
+	gui_math::Vector3 cam_position = gui_math::Vector3(1.0f, 0.0f, 10.0f);
+	gui_math::Vector3 cam_direction = gui_math::Vector3(0.0f, 0.0f, -1.0f);
 	gui_math::Vector3 cam_upVector = gui_math::Vector3(0.0f, 1.0f, 0.0f);
 	float cam_fov = 45.0f;
 	float cam_aspect = 16.0f/9.0f;
@@ -56,21 +56,32 @@ int main()
 	renderer.InitBuffers(scene.vertices, scene.indices);
 
 	float currentFrame, deltaTime, lastFrame = 0.0f;
+	double xpos, ypos;
 
 	while (!glfwWindowShouldClose(window))
 	{
-		currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
-		scene.processInput(window, deltaTime);
 
 		// Refresh UI
-		engine::PollEvents();
+		engine::PollEvents(window);
 		engine::NewFrame();
 		engine::ShowDockspace(io);
 
 		// Render Viewport
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove);
+		if (ImGui::IsWindowFocused())
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			currentFrame = glfwGetTime();
+			deltaTime = currentFrame - lastFrame;
+			lastFrame = currentFrame;
+			scene.processInput(window, deltaTime);
+			glfwGetCursorPos(window, &xpos, &ypos);
+			scene.mouse_callback(xpos, ypos);
+		}
+		else {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			scene.firstMouse = true;
+		}
 		ImVec2 w_size = ImGui::GetContentRegionAvail();
 		renderer.Render(w_size.x, w_size.y, scene);
 		ImGui::Image((intptr_t)renderer.textureColorBuffer, ImVec2(w_size.x, w_size.y));

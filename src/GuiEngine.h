@@ -15,7 +15,7 @@ namespace engine
 	const char* InitGLFW();
 	void SetElementsColors(ImGuiStyle& style, ImVec4 color, std::vector<ImGuiCol_> elements);
 	ImGuiIO& InitImGui(GLFWwindow* window, const char* glsl_version, int vsync);
-	void PollEvents();
+	void PollEvents(GLFWwindow* window);
 	void NewFrame();
 	void ShowDockspace(ImGuiIO& io);
 	void Render(GLFWwindow* window, ImGuiIO& io);

@@ -19,8 +19,6 @@ void Scene::AddIndices(std::vector<int> indicies_list)
 
 void Scene::processInput(GLFWwindow* window, float deltaTime)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera.move(MOVING_FORWARD, deltaTime);
@@ -36,6 +34,43 @@ void Scene::processInput(GLFWwindow* window, float deltaTime)
 		camera.move(MOVING_DOWN, deltaTime);
 }
 
+void Scene::mouse_callback(double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xOffset = lastX - xpos;
+	float yOffset = lastY - ypos; // Reversed: y-coordinates go top-to-bottom
+	lastX = xpos;
+	lastY = ypos;
+
+	// Pass the offset to the camera
+	processMouseMovement(xOffset, yOffset);
+}
+
+void Scene::processMouseMovement(float xOffset, float yOffset, bool constrainPitch)
+{
+	xOffset *= camera.mouseSensitivity;
+	yOffset *= camera.mouseSensitivity;
+
+	camera.yaw += xOffset;
+	camera.pitch += yOffset;
+
+	// Constrain the pitch to avoid gimbal lock
+	if (constrainPitch)
+	{
+		if (camera.pitch > 89.0f) camera.pitch = 89.0f;
+		if (camera.pitch < -89.0f) camera.pitch = -89.0f;
+	}
+
+	// Update camera vectors based on the new yaw and pitch
+	camera.updateCameraVectors();
+}
+
 Camera::Camera()
 	: position(gui_math::Vector3(0.0f, 0.0f, 0.0f)),
 	direction(gui_math::Vector3(0.0f, 0.0f, -1.0f)),
@@ -43,7 +78,7 @@ Camera::Camera()
 	right(gui_math::Vector3(1.0f, 0.0f, 0.0f)),
 	aspectRatio(1.0f),
 	fov(45.0f),
-	yaw(0.0f),
+	yaw(-90.0f),
 	pitch(0.0f),
 	movementSpeed(2.5f),
 	mouseSensitivity(0.1f) {
@@ -52,7 +87,7 @@ Camera::Camera()
 
 gui_math::Matrix4 Camera::getProjectionMatrix()
 {
-	float fovRadians = fov * (gui_math::PI / 180.0f); // Convert FOV to radians
+	float fovRadians = gui_math::radians(fov); // Convert FOV to radians
 	return gui_math::Matrix4::perspective(fovRadians, aspectRatio, 0.1f, 100.0f); // near = 0.1, far = 100.0
 }
 
@@ -100,4 +135,17 @@ void Camera::move(Action action, float deltaTime)
 			break;
 		}
 	}
+}
+
+void Camera::updateCameraVectors()
+{
+	// Convert spherical coordinates (yaw, pitch) to Cartesian coordinates
+	direction.x = cos(gui_math::radians(yaw)) * cos(gui_math::radians(pitch));
+	direction.y = sin(gui_math::radians(pitch));
+	direction.z = sin(gui_math::radians(yaw)) * cos(gui_math::radians(pitch));
+	direction = gui_math::normalize(direction);
+
+	// Recalculate the right and up vectors
+	right = gui_math::normalize(gui_math::cross(direction, gui_math::Vector3(0.0f, 1.0f, 0.0f))); // World up
+	up = gui_math::normalize(gui_math::cross(right, direction));
 }

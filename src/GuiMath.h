@@ -25,6 +25,7 @@ namespace gui_math
 	float length(Vector3 vec);
 	Vector3 normalize(Vector3 vec);
 	float dot(Vector3 vec_01, Vector3 vec_02);
+	float radians(float degrees);
 
 	class Matrix4 {
 	public:

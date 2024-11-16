@@ -2,6 +2,7 @@
 
 #include "GuiMath.h"
 #include "glfw/glfw3.h"
+#include "imgui.h"
 #include <iostream>
 #include <vector>
 
@@ -37,7 +38,7 @@ public:
 	Camera();
 	Camera(gui_math::Vector3 pos, gui_math::Vector3 dir, gui_math::Vector3 upVector, float fov_, float aspect)
 		: position(pos), direction(dir), up(upVector), fov(fov_), aspectRatio(aspect),
-		yaw(0.0f), pitch(0.0f),
+		yaw(-90.0f), pitch(0.0f),
 		movementSpeed(2.5f), mouseSensitivity(0.1f)	
 	{
 		// Initialize right vector
@@ -47,6 +48,7 @@ public:
 	gui_math::Matrix4 getLookAtMatrix(gui_math::Vector3 target);
 	gui_math::Matrix4 getViewMatrix();
 	void move(Action action, float deltaTime);
+	void updateCameraVectors();
 };
 
 
@@ -56,9 +58,14 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<int> indices;
 	Camera camera;
+	bool firstMouse = true;
+	float lastX = 0;
+	float lastY = 0;
 	Scene() {};
 	void AddVertices(std::vector<Vertex> vertices_list);
 	void AddIndices(std::vector<int> indicies_list);
 	void SetCamera(Camera camera_) {camera = camera_;};
 	void processInput(GLFWwindow* window, float deltaTime);
+	void mouse_callback(double xpos, double ypos);
+	void processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true);
 };

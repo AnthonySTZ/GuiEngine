@@ -72,6 +72,11 @@ namespace gui_math {
 		return vec_01.x * vec_02.x + vec_01.y * vec_02.y + vec_01.z * vec_02.z;
 	}
 
+	float radians(float degrees)
+	{
+		return degrees * (PI / 180.0f);
+	}
+
 	Matrix4 Matrix4::lookAt(Vector3 eye, Vector3 target, Vector3 up)
 	{
 		Matrix4 result;
@@ -119,12 +124,6 @@ namespace gui_math {
 		Vector3 zAxis = -gui_math::normalize(direction);                // Forward direction (negative z-axis in view space)
 		Vector3 xAxis = -gui_math::normalize(gui_math::cross(up, zAxis)); // Right vector
 		Vector3 yAxis = gui_math::cross(zAxis, xAxis);                  // Up vector
-		/*std::cout << "Forward Direction : " << std::endl;
-		std::cout << zAxis << std::endl;
-		std::cout << "Right Vector : " << std::endl;
-		std::cout << xAxis << std::endl;
-		std::cout << "Up Vector : " << std::endl;
-		std::cout << yAxis << std::endl;*/
 
 		// Fill the rotation matrix
 		result.elements[0] = xAxis.x;
