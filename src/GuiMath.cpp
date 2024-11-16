@@ -98,7 +98,7 @@ namespace gui_math {
 
 		// Calculate camera axes
 		Vector3 zAxis = -gui_math::normalize(direction);                // Forward direction (negative z-axis in view space)
-		Vector3 xAxis = gui_math::normalize(gui_math::cross(up, zAxis)); // Right vector
+		Vector3 xAxis = -gui_math::normalize(gui_math::cross(up, zAxis)); // Right vector
 		Vector3 yAxis = gui_math::cross(zAxis, xAxis);                  // Up vector
 		/*std::cout << "Forward Direction : " << std::endl;
 		std::cout << zAxis << std::endl;

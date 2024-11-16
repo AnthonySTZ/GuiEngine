@@ -32,8 +32,8 @@ int main()
 	scene.AddIndices(scene_indices);
 
 	//Init camera
-	gui_math::Vector3 cam_position = gui_math::Vector3(1.0f, 1.0f, 5.0f);
-	gui_math::Vector3 cam_direction = gui_math::Vector3(0.0f, 0.0f, -1.0f);
+	gui_math::Vector3 cam_position = gui_math::Vector3(1.0f, 0.0f, -10.0f);
+	gui_math::Vector3 cam_direction = gui_math::Vector3(0.0f, 0.0f, 1.0f);
 	gui_math::Vector3 cam_upVector = gui_math::Vector3(0.0f, 1.0f, 0.0f);
 	float cam_fov = 45.0f;
 	float cam_aspect = 16.0f/9.0f;
