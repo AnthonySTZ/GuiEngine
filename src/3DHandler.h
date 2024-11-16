@@ -39,7 +39,7 @@ public:
 	Camera(gui_math::Vector3 pos, gui_math::Vector3 dir, gui_math::Vector3 upVector, float fov_, float aspect)
 		: position(pos), direction(dir), up(upVector), fov(fov_), aspectRatio(aspect),
 		yaw(-90.0f), pitch(0.0f),
-		movementSpeed(2.5f), mouseSensitivity(0.1f)	
+		movementSpeed(2.5f), mouseSensitivity(0.05f)	
 	{
 		// Initialize right vector
 		right = gui_math::normalize(gui_math::cross(direction, up));
