@@ -29,6 +29,7 @@ namespace engine
 		GLuint shaderProgram;
 		GLuint framebuffer;
 		GLuint textureColorBuffer;
+		GLuint depthBuffer;
 		GLuint VAO, VBO, EBO;
 		void BindShaders();
 		void GenTexture2D();		

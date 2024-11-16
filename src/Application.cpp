@@ -7,10 +7,17 @@
 int main() 
 {
 	// Define Scene
-	gui_math::Vector3 vector_01 = gui_math::Vector3(-0.5f, -0.5f, 0.0f);
-	gui_math::Vector3 vector_02 = gui_math::Vector3(-0.5f, 0.5f, 0.0f);
-	gui_math::Vector3 vector_03 = gui_math::Vector3(.5f, .5f, 0.0f);
-	gui_math::Vector3 vector_04 = gui_math::Vector3(.5f, -.5f, 0.0f);
+	// TOP
+	gui_math::Vector3 vector_01 = gui_math::Vector3(-0.5f, 0.5f, -0.5f);
+	gui_math::Vector3 vector_02 = gui_math::Vector3(0.5f, 0.5f, -0.5f);
+	gui_math::Vector3 vector_03 = gui_math::Vector3(0.5f, 0.5f, 0.5f);
+	gui_math::Vector3 vector_04 = gui_math::Vector3(-0.5f, 0.5f, 0.5f);
+
+	// BOTTOM
+	gui_math::Vector3 vector_05 = gui_math::Vector3(-0.5f, -0.5f, -0.5f);
+	gui_math::Vector3 vector_06 = gui_math::Vector3(0.5f, -0.5f, -0.5f);
+	gui_math::Vector3 vector_07 = gui_math::Vector3(0.5f, -0.5f, 0.5f);
+	gui_math::Vector3 vector_08 = gui_math::Vector3(-0.5f, -0.5f, 0.5f);
 
 	gui_math::Vector3 red = gui_math::Vector3(0.8f, 0.0f, 0.0f);
 	gui_math::Vector3 green = gui_math::Vector3(0.0f, 0.8f, 0.0f);
@@ -18,15 +25,39 @@ int main()
 	gui_math::Vector3 yellow = gui_math::Vector3(0.8f, 0.8f, 0.0f);
 
 	Vertex point_01 = Vertex(vector_01, red);
-	Vertex point_02 = Vertex(vector_02, green);
-	Vertex point_03 = Vertex(vector_03, blue);
+	Vertex point_02 = Vertex(vector_02, red);
+	Vertex point_03 = Vertex(vector_03, red);
 	Vertex point_04 = Vertex(vector_04, red);
 
+	Vertex point_05 = Vertex(vector_05, blue);
+	Vertex point_06 = Vertex(vector_06, blue);
+	Vertex point_07 = Vertex(vector_07, blue);
+	Vertex point_08 = Vertex(vector_08, blue);
+
 	Scene scene = Scene();
-	std::vector<Vertex> scene_vertices = { point_01, point_02, point_03, point_04 };
+	std::vector<Vertex> scene_vertices = { 
+		point_01, point_02, point_03, point_04,
+		point_05, point_06, point_07, point_08 
+	};
 	std::vector<int> scene_indices = { 
-		0, 1, 2,
-		0, 2, 3
+		// Top face
+		0, 1, 2,  2, 3, 0,
+
+		// Bottom face
+		4, 7, 6,  6, 5, 4,
+
+		// Back face
+		0, 4, 1,  1, 4, 5,
+
+		// Front face
+		3, 2, 7,  7, 2, 6,
+
+		// Right face
+		2, 1, 5,  5, 6, 2,
+
+		// Left face
+		0, 3, 4,  4, 3, 7		
+	
 	};
 	scene.AddVertices(scene_vertices);
 	scene.AddIndices(scene_indices);
@@ -38,7 +69,7 @@ int main()
 	float cam_fov = 45.0f;
 	float cam_aspect = 16.0f/9.0f;
 	Camera camera = Camera(cam_position, cam_direction, cam_upVector, cam_fov, cam_aspect);
-	camera.movementSpeed = 4.0f;
+	camera.movementSpeed = 6.0f;
 	scene.SetCamera(camera);
 
 	// Init Window
