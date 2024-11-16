@@ -4,7 +4,7 @@ The purpose of this project was to learn c++ and implement OpenGL with DearImGui
 
 ## Interface
 
-![Image](.assets/main.jpg)
+![Image](/assets/main.jpg)
 
 ## Features
 
